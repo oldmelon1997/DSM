@@ -43,6 +43,7 @@
 #include "Optimization/PhotometricBA.h"
 #include "Optimization/PhotometricResidual.h"
 #include "Visualizer/IVisualizer.h"
+#include "Writer/Writer.h"
 
 #include "opencv2/highgui.hpp"
 #include "opencv2/features2d.hpp"
@@ -63,7 +64,7 @@ namespace dsm
 		shouldStop(false),
 		newFrameMappedDone(true),
 		outputWrapper(outputWrapper)
-	{
+	{	
 		// First: initialize pattern types
 		Pattern::initialize();
 
@@ -1191,6 +1192,11 @@ namespace dsm
 		this->lmcw->updateConnectivity();
 		Utils::Time t18 = std::chrono::steady_clock::now();
 		//std::cout << "Update connectivity time: " << Utils::elapsedTime(t9, t10) << std::endl;
+
+
+		// Before dropping keyframes, write the active points from these "to be dropped" keyframes 
+		std::cout << "BEFORE DROPPING KEYFRAME, TRY TO OUTPUT POINTCLOUD !!!!!!!!!!!!!!" << std::endl;
+
 
 		// drop keyframes and remove covisible keyframes
 		// we will only estimate new candidates from the temporal window

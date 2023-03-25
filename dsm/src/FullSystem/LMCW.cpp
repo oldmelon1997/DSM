@@ -34,6 +34,7 @@
 #include "Utils/Projection.h"
 #include "Utils/Settings.h"
 #include "Utils/UtilFunctions.h"
+#include "Writer/Writer.h"
 
 namespace dsm
 {
@@ -42,6 +43,9 @@ namespace dsm
 	{
 		const auto& settings = Settings::getInstance();
 		const int levels = settings.pyramidLevels;
+
+		// set up pointcloud writer
+		this->p_writer = std::make_unique<PointCloudWriter>("pointcloud.txt");
 
 		// distance transformation
 		this->distanceMap_ = std::make_unique<DistanceTransform>(width, height);
@@ -118,6 +122,11 @@ namespace dsm
 		{
 			if ((*it)->flaggedToDrop())
 			{
+				// Before dropping, output the optimized active points
+				if (this->p_writer->output((*it)->activePoints(), *it)) {
+					std::cout << "WRITE POINTCLOUD SUCCESS" << std::endl;
+				}
+
 				(*it)->deactivate();
 				(*it)->setFlaggedToDrop(false);
 

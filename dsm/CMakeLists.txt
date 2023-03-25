@@ -103,6 +103,7 @@ set(HEADER_FILES
 	${root}/Initializer/MonoInitializer.h
 	${root}/Initializer/ModelSelector.h
 	${root}/Visualizer/IVisualizer.h
+	${root}/Writer/Writer.h
 	) 
 	
 set(SOURCE_FILES 
@@ -140,7 +141,8 @@ set(SOURCE_FILES
 	${root}/FullSystem/DSMLib.cpp
 	${root}/Initializer/MonoInitializer.cpp
 	${root}/Initializer/ModelSelector.cpp
-	${root}/Visualizer/IVisualizer.cpp	
+	${root}/Visualizer/IVisualizer.cpp
+	${root}/Writer/Writer.cpp	
 	)
 		
 # Organize the source and header files into groups

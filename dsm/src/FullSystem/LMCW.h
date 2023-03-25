@@ -33,6 +33,7 @@ namespace dsm
 	class CeresPhotometricBA;
 	class CovisibilityGraph;
 	class IVisualizer;
+	class PointCloudWriter;
 
 	// optimization window
 
@@ -115,5 +116,8 @@ namespace dsm
 
 		// visualizer
 		IVisualizer* const outputWrapper_;
+
+		// pointcloud writer
+		std::unique_ptr<PointCloudWriter> p_writer;
 	};
 }

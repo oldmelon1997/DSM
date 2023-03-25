@@ -207,7 +207,7 @@ namespace dsm
 
 		// image writing
 		int saveID;
-		
+
 		// structures for parallelization
 		struct PointObserver
 		{
