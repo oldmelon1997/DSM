@@ -107,6 +107,8 @@ namespace dsm
 
 			if (!line.empty())
 			{
+				std::size_t pos = line.find(",");
+				line = line.substr(0, pos);
 				this->files.push_back(imagePath + "/" + line + ".png");
 				this->timestamps.push_back(std::atof(line.c_str()) / 1e9);		// transform to seconds
 			}
