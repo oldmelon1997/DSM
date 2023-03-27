@@ -76,6 +76,9 @@ namespace dsm
 		const Eigen::VecXf& weights(int32_t lvl) const;
 		const bool valid(int32_t lvl) const;
 
+		// return the bgr color
+		const Eigen::Vector3f get_rgb() const;
+
 		// inverse depth in reference frame coordinates
 		float iDepth() const;	
 		void setIDepth(float value);
@@ -130,6 +133,9 @@ namespace dsm
 		std::vector<bool> validity_;				// if the point is valid in the level
 
 		Eigen::Vector3f ray_;						// ray from camera optic center to the central pixel in the detected level
+
+		// color of the pixel
+		std::vector<float> bgr_;
 
 		// geometric parameterization
 		float iDepth_;								// point inverse depth

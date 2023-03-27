@@ -45,7 +45,7 @@ namespace dsm
 		const int levels = settings.pyramidLevels;
 
 		// set up pointcloud writer
-		this->p_writer = std::make_unique<PointCloudWriter>("pointcloud.txt");
+		this->p_writer = std::make_unique<PointCloudWriter>("pointcloud.txt", "keyframes.txt");
 
 		// distance transformation
 		this->distanceMap_ = std::make_unique<DistanceTransform>(width, height);
@@ -86,6 +86,12 @@ namespace dsm
 
 		// insert into covisibility graph
 		this->covisibilityGraph_->addNode(newKeyframe);
+
+		//output to keyframes file
+		if(!this->p_writer->output_keyframes(newKeyframe))
+		{
+			std::cout << "output to keyframes file failed" << std::endl;
+		}
 	}
 
 	void LMCW::selectWindow(const std::unique_ptr<CeresPhotometricBA>& photometricBA)

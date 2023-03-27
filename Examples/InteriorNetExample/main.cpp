@@ -1,26 +1,3 @@
-/**
-* This file is part of DSM.
-*
-* Copyright (C) 2019 CEIT (Universidad de Navarra) and Universidad de Zaragoza
-* Developed by Jon Zubizarreta,
-* for more information see <https://github.com/jzubizarreta/dsm>.
-* If you use this code, please cite the respective publications as
-* listed on the above website.
-*
-* DSM is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* DSM is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with DSM. If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include <iostream>
 #include <thread>
 #include <memory>
@@ -32,7 +9,8 @@
 #include "QtVisualizer.h"
 #include "FullSystem/FullSystem.h"
 #include "Utils/Undistorter.h"
-#include "Utils/EurocReader.h"
+#include "Utils/InteriorNetReader.h"
+
 
 // Use the best GPU available for rendering (visualization)
 #ifdef WIN32
@@ -52,7 +30,7 @@ namespace dsm
 		inline Processor() { this->shouldStop = false; }
 		inline ~Processor() { this->join(); }
 
-		inline void run(EurocReader& reader, Undistorter& undistorter, QtVisualizer& visualizer, std::string& settingsFile)
+		inline void run(InteriorNetReader& reader, Undistorter& undistorter, QtVisualizer& visualizer, std::string& settingsFile)
 		{
 			this->processThread = std::make_unique<std::thread>(&Processor::doRun, this,
 				std::ref(reader), std::ref(undistorter), std::ref(visualizer), std::ref(settingsFile));
@@ -75,7 +53,7 @@ namespace dsm
 
 	private:
 
-		inline void doRun(EurocReader& reader, Undistorter& undistorter, QtVisualizer& visualizer, std::string& settingsFile)
+		inline void doRun(InteriorNetReader& reader, Undistorter& undistorter, QtVisualizer& visualizer, std::string& settingsFile)
 		{
 			int id = 0;
 			cv::Mat image;
@@ -201,7 +179,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		std::cout << "The EurocExample requires at least 3 arguments: imageFolder, timestampFile, calibFile, settingsFile (optional)\n";
+		std::cout << "The InteriorNetExample requires at least 3 arguments: imageFolder, timestampFile, calibFile, settingsFile (optional)\n";
 		return 0;
 	}
 
@@ -230,7 +208,7 @@ int main(int argc, char *argv[])
 	std::cout << "\n";
 
 	// read sequence
-	dsm::EurocReader reader(imageFolder, timestampFile, false);
+	dsm::InteriorNetReader reader(imageFolder, timestampFile, false);
 	if (!reader.open())
 	{
 		std::cout << "no images found ..." << std::endl;

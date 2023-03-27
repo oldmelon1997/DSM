@@ -37,14 +37,15 @@
 
 namespace dsm
 {
-	Frame::Frame(int id, double timestamp, unsigned char* image) :
+	Frame::Frame(int id, double timestamp, unsigned char* image, unsigned char* image_bgr) :
 		frameID_(id),
 		timestamp_(timestamp),
 		trackingParent_(nullptr),
 		affineLight_(0.f, 0.f),
 		thisToParentLight_(0.f, 0.f),
 		type_(Type::FRAME),
-		status_(Status::INACTIVE)
+		status_(Status::INACTIVE),
+		image_bgr_(image_bgr)
 	{
 		const auto& settings = Settings::getInstance();
 		const auto& calib = GlobalCalibration::getInstance();
@@ -170,6 +171,11 @@ namespace dsm
 	const float* Frame::image(int32_t level) const
 	{
 		return this->images_->image(level);
+	}
+
+	const unsigned char* Frame::image_bgr() const
+	{
+		return this->image_bgr_;
 	}
 
 	const float* Frame::gx(int32_t level) const

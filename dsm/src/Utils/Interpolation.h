@@ -49,6 +49,32 @@ namespace dsm
 			+ (dy - dxdy) * source[width] + (1.f - dx - dy + dxdy) * source[0]);
 	}
 
+	template<typename T, typename U = float>
+	inline std::vector<U> bilinearInterpolation_color(const T* const colored_mat, const U &x, const U &y, const int &width)
+	{
+		const int int_x = static_cast<const int>(x);
+		const int int_y = static_cast<const int>(y);
+
+		const U dx = x - int_x;
+		const U dy = y - int_y;
+		const U dxdy = dx*dy;
+
+		const T* const source = colored_mat + int_x * 3 + int_y * width * 3;
+
+		// const T* const b = colored_mat + int_x * 3 + int_y * width * 3;
+		// const T* const g = colored_mat + int_x * 3 + int_y * width * 3 + 1;
+		// const T* const r = colored_mat + int_x * 3 + int_y * width * 3 + 2;
+
+		std::vector<U> interpolated_color(3, U(0));
+		for (int i = 0; i < 3; ++i) {
+			interpolated_color[i] = dxdy * static_cast<U>(source[i + 3 + width*3]) + (dx - dxdy) * static_cast<U>(source[i + 3])
+					+ (dy -dxdy) * static_cast<U>(source[i + width * 3]) + (U(1) - dx - dy + dxdy) * static_cast<U>(source[i]);
+		}
+
+		return interpolated_color;
+
+	}
+
 #if defined(ENABLE_SSE)
 
 	/* reads bilinear interpolated element from a float* array using sse instructions

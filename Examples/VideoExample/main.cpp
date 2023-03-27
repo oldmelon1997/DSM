@@ -80,6 +80,7 @@ namespace dsm
 		{
 			int id = 0;
 			cv::Mat image;
+			cv::Mat image_bgr;
 			double timestamp;
 
 			const double fps = reader.get(cv::CAP_PROP_FPS);
@@ -104,6 +105,7 @@ namespace dsm
 					id = 0;
 					timestamp = 0;
 					image.release();
+					image_bgr.release();
 
 					// reset visualizer
 					visualizer.reset();
@@ -113,18 +115,23 @@ namespace dsm
 				}
 
 				// capture
-				if (visualizer.getDoProcessing() && reader.read(image))
+				if (visualizer.getDoProcessing() && reader.read(image_bgr))
 				{
 					double time = (double)cv::getTickCount();
 
 					//gray image from source
-					if (image.channels() == 3)
+					if (image_bgr.channels() == 3)
 					{
-						cv::cvtColor(image, image, cv::COLOR_BGR2GRAY);
+						cv::cvtColor(image_bgr, image, cv::COLOR_BGR2GRAY);
+					} else {
+						image = image_bgr.clone();
+						cv::cvtColor(image_bgr, image_bgr, cv::COLOR_GRAY2BGR);
+						
 					}
 
 					// undistort
 					undistorter.undistort(image, image);
+					undistorter.undistort(image_bgr, image_bgr);
 
 					if (DSM == nullptr)
 					{
@@ -135,7 +142,7 @@ namespace dsm
 					}
 
 					// process
-					DSM->trackFrame(id, timestamp, image.data);
+					DSM->trackFrame(id, timestamp, image.data, image_bgr.data);
 
 					// visualize image
 					visualizer.publishLiveFrame(image);

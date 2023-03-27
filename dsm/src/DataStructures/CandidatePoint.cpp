@@ -104,6 +104,10 @@ namespace dsm
 			this->weights_[idx] = sqrtf(weightConstant / (weightConstant + mag2));
 		}
 
+		// assign rgb values
+		const unsigned char* const image_bgr = this->refFrame_->image_bgr();
+		this->bgr_ = bilinearInterpolation_color(image_bgr, this->u_[0], this->u_[1], width);
+ 
 		// normalize gradients
 		const float norm = this->gx2 + this->gy2 + std::numeric_limits<float>::epsilon();
 		this->gx2 /= norm;

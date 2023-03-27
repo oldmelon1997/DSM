@@ -74,7 +74,7 @@ namespace dsm
 
 
 		// Tracks the stereo frame. It calculates the system pose and the 3D scene*/
-		void trackFrame(int id, double timestamp, unsigned char* image);
+		void trackFrame(int id, double timestamp, unsigned char* image, unsigned char* image_bgr);
 
 		////////////////////////////////////////
 		//		       ACCESORS	 	          //

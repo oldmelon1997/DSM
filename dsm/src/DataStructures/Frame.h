@@ -59,7 +59,7 @@ namespace dsm
 		enum Type { FRAME = 0, KEYFRAME = 1};
 		enum Status { ACTIVE = 0, INACTIVE = 1 };
 
-		Frame(int id, double timestamp, unsigned char* image);
+		Frame(int id, double timestamp, unsigned char* image, unsigned char* image_bgr);
 		~Frame();
 
 		// activation or desactivation
@@ -98,6 +98,9 @@ namespace dsm
 
 		// image pyramids
 		const float* image(int32_t level) const;
+
+		// colored image
+		const unsigned char* image_bgr() const;
 
 		// gradient pyramids
 		const float* gx(int32_t level) const;	
@@ -171,6 +174,9 @@ namespace dsm
 
 		// image pyramids
 		std::unique_ptr<ImagePyramid<float>> images_;
+
+		// image_bgr of lvl 0
+		unsigned char* image_bgr_;
 
 		// gradient pyramids - skip the border of 1 pixel
 		std::unique_ptr<GradientPyramid<float>> gradients_;

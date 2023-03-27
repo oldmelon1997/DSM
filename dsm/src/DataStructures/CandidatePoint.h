@@ -127,8 +127,10 @@ namespace dsm
 		Frame* const refFrame_;
 
 		// pattern values
-		std::vector<float> color_;					// color of each point in the pattern in reference image
+		std::vector<float> color_;					// color of each point in the pattern in reference image  BRIGHTNESS?
 		std::vector<float> weights_;				// weight for each point in the pattern in reference image
+
+		std::vector<float> bgr_;                    // color of each centered point in reference image
 
 		// ray from camera optic center to the central pixel in the detected level
 		// we will assume the normal has the ray direction pointing to the camera center

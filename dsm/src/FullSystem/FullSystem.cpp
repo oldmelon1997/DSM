@@ -392,7 +392,7 @@ namespace dsm
 		return false;
 	}
 
-	void FullSystem::trackFrame(int id, double timestamp, unsigned char* image)
+	void FullSystem::trackFrame(int id, double timestamp, unsigned char* image, unsigned char* image_bgr)
 	{
 		this->lastWasKF = false;
 
@@ -402,7 +402,7 @@ namespace dsm
 		Utils::Time t1 = std::chrono::steady_clock::now();
 
 		// Create new frame
-		std::shared_ptr<Frame> trackingNewFrame = std::make_shared<Frame>(id, timestamp, image);
+		std::shared_ptr<Frame> trackingNewFrame = std::make_shared<Frame>(id, timestamp, image, image_bgr);
 
 		if (settings.debugPrintLog)
 		{

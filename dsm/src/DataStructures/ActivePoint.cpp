@@ -51,6 +51,7 @@ namespace dsm
 		this->refFrame_ = candidate->refFrame_;
 		this->iDepth_ = candidate->iDepth_;
 		this->ray_ = candidate->ray_;
+		this->bgr_ = candidate->bgr_;
 
 		// pyramidal values
 		for (int lvl = 0; lvl < numPyramids; ++lvl)
@@ -137,6 +138,13 @@ namespace dsm
 	const bool ActivePoint::valid(int32_t lvl) const
 	{
 		return this->validity_[lvl];
+	}
+
+	const Eigen::Vector3f ActivePoint::get_rgb() const
+	{
+		Eigen::Vector3f res;
+		res << this->bgr_[2], this->bgr_[1], this->bgr_[0];
+		return res;
 	}
 
 	float ActivePoint::iDepth() const
